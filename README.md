@@ -1,6 +1,9 @@
 # Weekly ![](Weekly/Assets.xcassets/AppIcon.appiconset/Weekly-6.png) 
 Add the week number to the MacOS menubar
 
+## Screenshots
+[](ScreenShot.png)
+
 ## Support
 
 **Bugs and requests?**  Please use the project's [issue tracker].
