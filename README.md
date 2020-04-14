@@ -13,7 +13,7 @@ Add the week number to the MacOS menubar
 
 **Do you like it?**  Support the project by starring the repository or [tweet] about it.
 
-## Thanks for looking
+## Thanks for looking!
 
 **Weekly** © 2020, Paul Wong. Released under the [MIT License](LICENSE).
 
