@@ -2,7 +2,7 @@
 Add the week number to the MacOS menubar
 
 ## Screenshots
-[](ScreenShot.png)
+![](Screenshot1.png)
 
 ## Support
 
