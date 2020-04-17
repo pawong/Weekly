@@ -8,11 +8,14 @@
 
 import Cocoa
 
+
+@available(OSX 10.14, *)
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.variableLength)
     let timeInterval: Double = 300
-    let priorWeekNo = 0
+    var priorWeekNo = 0
+    var priorMode: Bool = false
 
     var timer: Timer!
     var settings: Settings!
@@ -87,17 +90,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let calendar = Calendar.current
         let weekNo = calendar.component(.weekOfYear, from: Date.init(timeIntervalSinceNow: 0))
         
-        if weekNo != priorWeekNo || settings.needsDisplay == true {
+        var inDarkMode: Bool {
+            let mode = UserDefaults.standard.string(forKey: "AppleInterfaceStyle")
+            return mode == "Dark"
+        }
+        
+        if weekNo != priorWeekNo || settings.needsDisplay == true || inDarkMode != priorMode {
+            priorWeekNo = weekNo
+            priorMode = inDarkMode
+
             var statusText = ""
-            if settings.settings.showLabel {
+            if self.settings.settings.showLabel {
                 statusText = "Week "
             }
-            statusItem.attributedTitle = NSAttributedString(
-                string:  "\(statusText)\(weekNo)",
-                attributes: [
-                    NSAttributedString.Key.font:  NSFont(name: "Helvetica Neue", size: 12)!
-                ]
-            )
+            statusItem.title = "\(statusText)"
+            
+            var img = NSImage(named: "LightMenubarIcon")
+            var textColor = NSColor.white
+            if inDarkMode {
+                img = NSImage(named: "DarkMenubarIcon")
+                textColor = NSColor.black
+            }
+            statusItem.image = createMenubarIcon(weekNo:weekNo, textColor:textColor, image:img!)
+            statusItem.button?.imagePosition = .imageRight
+            
             settings.needsDisplay = false
         }
         constructMenu(weekNo)
@@ -122,6 +138,40 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
     }
+    
+    func createMenubarIcon(weekNo: Int, textColor: NSColor, image: NSImage) -> NSImage {
 
+        let targetImage = NSImage(size: image.size, flipped: false) { (dstRect: CGRect) -> Bool in
+
+            let text = "\(weekNo)"
+            
+            image.draw(in: dstRect)
+            let textColor = textColor
+            let textFont = NSFont(name: "HelveticaNeue", size: 12)!
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = NSTextAlignment.center
+
+            let textFontAttributes = [
+                NSAttributedString.Key.font: textFont,
+                NSAttributedString.Key.foregroundColor: textColor,
+                ] as [NSAttributedString.Key : Any]
+
+            let stringSize = text.size(withAttributes: textFontAttributes)
+
+            text.draw(
+                in: CGRect(
+                    x: (image.size.width - stringSize.width) / 2,
+                    y: (image.size.height - stringSize.height) + 5 / 2,
+                    width: stringSize.width,
+                    height: stringSize.height
+                ),
+                withAttributes: textFontAttributes
+            )
+
+            
+            return true
+        }
+        return targetImage
+    }
 }
 
