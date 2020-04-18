@@ -4,6 +4,9 @@ Add the week number to the MacOS menubar
 ## Screenshots
 ![](Screenshot1.png)
 
+A free forked version is available on the Mac App Store. 
+Click here: ![mas link](mappstore.png)
+
 ## Support
 
 **Bugs and requests?**  Please use the project's [issue tracker].
@@ -22,3 +25,4 @@ Add the week number to the MacOS menubar
 
 [tweet]: https://twitter.com/intent/tweet?
 [issue tracker]: https://github.com/jaikenone/Weekly/issues/new
+[mas link]: https://itunes.apple.com/us/app/WeekNo/id1508616995?mt=12
