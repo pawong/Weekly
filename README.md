@@ -15,7 +15,7 @@ Click here: [![mas link](mappstore.png)](https://itunes.apple.com/us/app/WeekNo/
 
 **Want to contribute?**  Please fork this repository and open a pull request with your new changes.
 
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/jaikenone/Weekly.svg?maxAge=3600)](https://github.com/jaikenone/Weekly/pulls)
+[![Pull requests](https://img.shields.io/github/issues-pr/jaikenone/Weekly.svg?maxAge=3600)](https://github.com/jaikenone/Weekly/pulls)
 
 **Do you like it?**  Support the project by starring the repository or [tweet] about it.
 
