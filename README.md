@@ -6,6 +6,7 @@ Add the week number to the MacOS menubar
 
 A free forked version is available on the Mac App Store. 
 Click here: [![mas link](mappstore.png)](https://itunes.apple.com/us/app/WeekNo/id1508616995?mt=12)
+* This app has been denigned by Apple because there are other simular apps. This is probably a good thing.
 
 ## Support
 
