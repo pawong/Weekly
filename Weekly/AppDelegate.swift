@@ -90,14 +90,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let calendar = Calendar.current
         let weekNo = calendar.component(.weekOfYear, from: Date.init(timeIntervalSinceNow: 0))
         
-        var inDarkMode: Bool {
-            let mode = UserDefaults.standard.string(forKey: "AppleInterfaceStyle")
-            return mode == "Dark"
-        }
-        
-        if weekNo != priorWeekNo || settings.needsDisplay == true || inDarkMode != priorMode {
+        if weekNo != priorWeekNo || settings.needsDisplay == true  {
             priorWeekNo = weekNo
-            priorMode = inDarkMode
 
             var statusText = ""
             if self.settings.settings.showLabel {
@@ -105,13 +99,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             statusItem.title = "\(statusText)"
             
-            var img = NSImage(named: "LightMenubarIcon")
-            var textColor = NSColor.white
-            if inDarkMode {
-                img = NSImage(named: "DarkMenubarIcon")
-                textColor = NSColor.black
-            }
-            statusItem.image = createMenubarIcon(weekNo:weekNo, textColor:textColor, image:img!)
+            let text = "\(weekNo)"
+            
+            let background = NSImage(size: NSSize(width: 16, height: 16), color: .white)
+            let foreground = NSImage(size: NSSize(width: 16, height: 16), color: .clear).addTextToImage(drawText: text, color: .black)
+            let iconImage = background.mergeWith(anotherImage: foreground)
+            iconImage.isTemplate = true
+            
+            statusItem.image = iconImage
             statusItem.button?.imagePosition = .imageRight
             
             settings.needsDisplay = false
@@ -138,40 +133,62 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
     }
-    
-    func createMenubarIcon(weekNo: Int, textColor: NSColor, image: NSImage) -> NSImage {
+}
 
-        let targetImage = NSImage(size: image.size, flipped: false) { (dstRect: CGRect) -> Bool in
+extension NSImage {
+    convenience init(size: NSSize, color: NSColor) {
+        self.init(size: size)
+        lockFocus()
+        let rect = NSRect(origin: .zero, size: size)
+        let borderPath = NSBezierPath()
+        borderPath.appendRoundedRect(rect, xRadius: 2.0, yRadius: 2.0)
+        borderPath.lineWidth = 1
+        let fillColor = color
+        fillColor.set()
+        borderPath.fill()
+        borderPath.stroke()
+        unlockFocus()
+    }
 
-            let text = "\(weekNo)"
+    func addTextToImage(drawText text: String, color: NSColor) -> NSImage {
+
+        let targetImage = NSImage(size: self.size, flipped: false) { (dstRect: CGRect) -> Bool in
+            self.draw(in: dstRect)
             
-            image.draw(in: dstRect)
-            let textColor = textColor
             let textFont = NSFont(name: "HelveticaNeue", size: 12)!
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.alignment = NSTextAlignment.center
 
             let textFontAttributes = [
                 NSAttributedString.Key.font: textFont,
-                NSAttributedString.Key.foregroundColor: textColor,
+                NSAttributedString.Key.foregroundColor: color,
                 ] as [NSAttributedString.Key : Any]
 
             let stringSize = text.size(withAttributes: textFontAttributes)
 
             text.draw(
                 in: CGRect(
-                    x: (image.size.width - stringSize.width) / 2,
-                    y: (image.size.height - stringSize.height) + 5 / 2,
+                    x: (self.size.width - stringSize.width) / 2,
+                    y: (self.size.height - stringSize.height + 3) / 2,
                     width: stringSize.width,
                     height: stringSize.height
                 ),
                 withAttributes: textFontAttributes
             )
 
-            
             return true
         }
+
         return targetImage
     }
+    
+    func mergeWith(anotherImage: NSImage) -> NSImage {
+        self.lockFocus()
+        
+        anotherImage.draw(in: CGRect(origin: .zero, size: self.size), from: CGRect(origin: .zero, size: anotherImage.size), operation: .destinationOut, fraction: 1.0)
+        
+        self.unlockFocus()
+        
+        return self
+    }
 }
-
