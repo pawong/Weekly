@@ -100,10 +100,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             statusItem.title = "\(statusText)"
             
             let text = "\(weekNo)"
-            
-            let background = NSImage(size: NSSize(width: 16, height: 16), color: .white)
-            let foreground = NSImage(size: NSSize(width: 16, height: 16), color: .clear).addTextToImage(drawText: text, color: .black)
-            let iconImage = background.mergeWith(anotherImage: foreground)
+
+            let iconImage = createMenuIcon(text: text, overrideWidth: 16)
             iconImage.isTemplate = true
             
             statusItem.image = iconImage
@@ -112,6 +110,49 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             settings.needsDisplay = false
         }
         constructMenu(weekNo)
+    }
+    
+    func createMenuIcon(text: String, overrideWidth: CGFloat?) -> NSImage {
+        
+        let textFont = NSFont(name: "HelveticaNeue", size: 12)!
+        let textFontAttributes = [
+            NSAttributedString.Key.font: textFont,
+            NSAttributedString.Key.foregroundColor: NSColor.white,
+        ] as [NSAttributedString.Key : Any]
+        let stringSize = text.size(withAttributes: textFontAttributes)
+        let width = overrideWidth ?? (stringSize.width + 4)
+        let size = NSSize(width: width, height: 16)
+        
+        let backgroundImage = NSImage(size: size)
+        backgroundImage.lockFocus()
+        let rect = NSRect(origin: .zero, size: size)
+        let borderPath = NSBezierPath()
+        borderPath.appendRoundedRect(rect, xRadius: 2.0, yRadius: 2.0)
+        borderPath.lineWidth = 1
+        let fillColor = NSColor.black
+        fillColor.set()
+        borderPath.fill()
+        borderPath.stroke()
+        backgroundImage.unlockFocus()
+        
+        let foregroundImage = NSImage(size: size)
+        foregroundImage.lockFocus()
+        text.draw(
+            in: CGRect(
+                x: (size.width - stringSize.width) / 2,
+                y: (size.height - stringSize.height + 3) / 2,
+                width: stringSize.width,
+                height: stringSize.height
+            ),
+            withAttributes: textFontAttributes
+        )
+        foregroundImage.unlockFocus()
+        
+        backgroundImage.lockFocus()
+        foregroundImage.draw(in: CGRect(origin: .zero, size: size), from: CGRect(origin: .zero, size: foregroundImage.size), operation: .destinationOut, fraction: 1.0)
+        backgroundImage.unlockFocus()
+        
+        return backgroundImage
     }
     
     func processCommandLine() {
@@ -132,63 +173,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     print("Unhandled argument: \(arguments[i])")
             }
         }
-    }
-}
-
-extension NSImage {
-    convenience init(size: NSSize, color: NSColor) {
-        self.init(size: size)
-        lockFocus()
-        let rect = NSRect(origin: .zero, size: size)
-        let borderPath = NSBezierPath()
-        borderPath.appendRoundedRect(rect, xRadius: 2.0, yRadius: 2.0)
-        borderPath.lineWidth = 1
-        let fillColor = color
-        fillColor.set()
-        borderPath.fill()
-        borderPath.stroke()
-        unlockFocus()
-    }
-
-    func addTextToImage(drawText text: String, color: NSColor) -> NSImage {
-
-        let targetImage = NSImage(size: self.size, flipped: false) { (dstRect: CGRect) -> Bool in
-            self.draw(in: dstRect)
-            
-            let textFont = NSFont(name: "HelveticaNeue", size: 12)!
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.alignment = NSTextAlignment.center
-
-            let textFontAttributes = [
-                NSAttributedString.Key.font: textFont,
-                NSAttributedString.Key.foregroundColor: color,
-                ] as [NSAttributedString.Key : Any]
-
-            let stringSize = text.size(withAttributes: textFontAttributes)
-
-            text.draw(
-                in: CGRect(
-                    x: (self.size.width - stringSize.width) / 2,
-                    y: (self.size.height - stringSize.height + 3) / 2,
-                    width: stringSize.width,
-                    height: stringSize.height
-                ),
-                withAttributes: textFontAttributes
-            )
-
-            return true
-        }
-
-        return targetImage
-    }
-    
-    func mergeWith(anotherImage: NSImage) -> NSImage {
-        self.lockFocus()
-        
-        anotherImage.draw(in: CGRect(origin: .zero, size: self.size), from: CGRect(origin: .zero, size: anotherImage.size), operation: .destinationOut, fraction: 1.0)
-        
-        self.unlockFocus()
-        
-        return self
     }
 }
