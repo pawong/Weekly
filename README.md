@@ -12,11 +12,11 @@ Click here: [![mas link](mappstore.png)](https://itunes.apple.com/us/app/WeekNo/
 
 **Bugs and requests?**  Please use the project's [issue tracker].
 
-[![Issues](http://img.shields.io/github/issues/jaikenone/Weekly.svg)](https://github.com/jaikenone/Weekly/issues)
+[![Issues](http://img.shields.io/github/issues/pawong/Weekly.svg)](https://github.com/pawong/Weekly/issues)
 
 **Want to contribute?**  Please fork this repository and open a pull request with your new changes.
 
-[![Pull requests](http://img.shields.io/github/issues-pr/jaikenone/Weekly.svg?maxAge=3600)](https://github.com/jaikenone/Weekly/pulls)
+[![Pull requests](http://img.shields.io/github/issues-pr/pawong/Weekly.svg?maxAge=3600)](https://github.com/jaikenone/Weekly/pulls)
 
 **Do you like it?**  Support the project by starring the repository or [tweet] about it.
 
@@ -25,4 +25,4 @@ Click here: [![mas link](mappstore.png)](https://itunes.apple.com/us/app/WeekNo/
 **Weekly** © 2020, Paul Wong. Released under the [MIT License](LICENSE).
 
 [tweet]: https://twitter.com/intent/tweet?
-[issue tracker]: https://github.com/jaikenone/Weekly/issues/new
+[issue tracker]: https://github.com/pawong/Weekly/issues/new
