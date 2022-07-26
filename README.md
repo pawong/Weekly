@@ -20,7 +20,7 @@ Click here: [![mas link](mappstore.png)](https://itunes.apple.com/us/app/WeekNo/
 
 **Do you like it?**  Support the project by starring the repository or [tweet] about it.
 
-## Thanks for looking!
+## Thanks for looking! If you like what you see [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/pawong)
 
 **Weekly** © 2020, Paul Wong. Released under the [MIT License](LICENSE).
 
