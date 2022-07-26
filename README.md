@@ -1,4 +1,4 @@
-# Weekly ![](Weekly/Assets.xcassets/AppIcon.appiconset/Weekly-6.png) 
+# Mazookie Weekly ![](Weekly/Assets.xcassets/AppIcon.appiconset/Weekly-6.png) 
 Add the week number to the MacOS menubar
 
 ## Screenshots
