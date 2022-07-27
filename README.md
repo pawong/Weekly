@@ -1,4 +1,4 @@
-# Weekly ![](Weekly/Assets.xcassets/AppIcon.appiconset/Weekly-6.png) from *Mazookie**
+# Weekly ![](Weekly/Assets.xcassets/AppIcon.appiconset/Weekly-6.png) from <img src="https://www.mazookie.com/img/Mazookie_full_logo_sticker_small.png" />
 Add the week number to the MacOS menubar
 
 ## Screenshots
@@ -24,7 +24,7 @@ Click here: [![mas link](mappstore.png)](https://itunes.apple.com/us/app/WeekNo/
 
 **Weekly** © 2020, Paul Wong. Released under the [MIT License](LICENSE).
 
-*What is Mazookie? Mazookie used to put apps on the MacOS App Store. This doesn't happen any more because Apple charges money to be a developer and there's no money in these apps, so the projects have been opensourced and are available here!
+/*What is Mazookie? Mazookie used to put apps on the MacOS App Store. This doesn't happen any more because Apple charges money to be a developer and there's no money in these apps, so the projects have been opensourced.
 
 [tweet]: https://twitter.com/intent/tweet?
 [issue tracker]: https://github.com/pawong/Weekly/issues/new
