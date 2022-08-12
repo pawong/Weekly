@@ -27,8 +27,10 @@ Click here: [![mas link](mappstore.png)](https://itunes.apple.com/us/app/WeekNo/
 [tweet]: https://twitter.com/intent/tweet?
 [issue tracker]: https://github.com/pawong/Weekly/issues/new
 
-<img src="https://www.mazookie.com/img/Mazookie_full_logo_sticker_small.png" />
-Q: What is Mazookie? <br>
+![](https://www.mazookie.com/img/Mazookie_full_logo_sticker_small.png)
+
+Q: What is Mazookie?
+
 A: Mazookie is a company that used to put apps on the MacOS App Store. This doesn't happen any more because Apple charges money to be a developer and there's no money in these apps, so the projects have been opensourced. Yeah, free stuff!
 
 
