@@ -8,8 +8,16 @@ Add the week number to the MacOS menubar
 ## Versions
 
 > [1.0.2](Builds/Weekly_v1.0.2/Weekly.zip)
-  Changes:
-  - First OpenSource Release
+>   Changes:
+>   - Fix up the menubar icon creator.
+
+> [1.0.1](Builds/Weekly_v1.0.1/Weekly.zip)
+>   Changes:
+>   - Removed menubar icons, in favor of creating them on the fly.
+
+> [1.0.0](Builds/Weekly_v1.0.1/Weekly.zip)
+>   Changes:
+>   - First OpenSource release.
 
 ## Support
 
