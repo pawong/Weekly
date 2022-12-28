@@ -1,0 +1,3 @@
+Shows the current week number in your menubar.
+
+Released under the MIT License.

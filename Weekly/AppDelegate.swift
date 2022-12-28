@@ -16,6 +16,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let timeInterval: Double = 300
     var priorWeekNo = 0
     var priorMode: Bool = false
+    
+    var aboutBoxController: NSWindowController!
+    var aboutBoxView: MZAboutBoxViewController!
 
     var timer: Timer!
     var settings: Settings!
@@ -46,11 +49,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         update()
     }
     
-    @objc func about(_ sender: Any?) {
-        NSApp.activate(ignoringOtherApps: true)
-        NSApp.orderFrontStandardAboutPanel(self)
-    }
-    
     @objc func showLabel(_ sender: Any?) {
         settings.settings.showLabel = !settings.settings.showLabel
         settings.archive()
@@ -59,6 +57,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @objc func openCalendar(_ sender: Any?) {
         NSWorkspace.shared.launchApplication("iCal")
+    }
+    
+    @IBAction func openAbout(_ sender: Any?) {
+        if aboutBoxController == nil {
+            let mainStoryboard = NSStoryboard.init(name: "MZAboutBox", bundle: nil)
+            aboutBoxController = (mainStoryboard.instantiateController(
+                withIdentifier: "MZ About Box") as! NSWindowController)
+            aboutBoxView = (mainStoryboard.instantiateController(
+                withIdentifier: "MZ AboutBox Controller"
+                ) as! MZAboutBoxViewController)
+            aboutBoxController.contentViewController = aboutBoxView
+            aboutBoxView.setMacId(newMacId: "id1508616995")
+        }
+        aboutBoxController.showWindow(self)
+        aboutBoxController.window?.makeKeyAndOrderFront(self)
+        aboutBoxView.forceHelp(force: false)
+        NSApp.activate(ignoringOtherApps: true)
     }
     
     @objc func quit(_ sender: Any?) {
@@ -70,7 +85,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
         menu.addItem(NSMenuItem(title: "Open week \(weekNo)", action: #selector(AppDelegate.openCalendar(_:)), keyEquivalent: ""))
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "About...", action: #selector(AppDelegate.about(_:)), keyEquivalent: ""))
+        menu.addItem(NSMenuItem(title: "About...", action: #selector(AppDelegate.openAbout(_:)), keyEquivalent: ""))
         
         let showmenu = NSMenuItem(title: "Show Label", action: #selector(AppDelegate.showLabel(_:)), keyEquivalent: "s")
         if settings.settings.showLabel == true {
@@ -97,14 +112,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if self.settings.settings.showLabel {
                 statusText = "Week "
             }
-            statusItem.title = "\(statusText)"
+            statusItem.button!.title = "\(statusText)"
             
             let text = "\(weekNo)"
 
             let iconImage = createMenuIcon(text: text, overrideWidth: 16)
             iconImage.isTemplate = true
             
-            statusItem.image = iconImage
+            statusItem.button!.image = iconImage
             statusItem.button?.imagePosition = .imageRight
             
             settings.needsDisplay = false
@@ -127,7 +142,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         backgroundImage.lockFocus()
         let rect = NSRect(origin: .zero, size: size)
         let borderPath = NSBezierPath()
-        borderPath.appendRoundedRect(rect, xRadius: 2.0, yRadius: 2.0)
+        borderPath.appendRoundedRect(rect, xRadius: 3.0, yRadius: 3.0)
         borderPath.lineWidth = 1
         let fillColor = NSColor.black
         fillColor.set()
@@ -140,7 +155,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         text.draw(
             in: CGRect(
                 x: (size.width - stringSize.width) / 2,
-                y: (size.height - stringSize.height + 3) / 2,
+                y: (size.height - stringSize.height) / 2,
                 width: stringSize.width,
                 height: stringSize.height
             ),
